@@ -1,12 +1,7 @@
-﻿#include <iostream>
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <time.h>
 using namespace std;
-
-
-/*
-* односвязный список
-* реализация
-*/
-
 
 template<typename T>
 class List
@@ -32,7 +27,6 @@ private:
 	public:
 		Node* pNext;
 		T data;
-
 		Node(T data, Node* pNext = nullptr)
 		{
 			this->data = data;
@@ -171,25 +165,37 @@ void List<T>::pop_back()
  
 int main()
 {
-
+	srand(time(0));
 	setlocale(LC_ALL, "ru");
 	List<int> lst;
-	lst.push_front(5);
-	lst.push_front(7);
-	lst.push_front(101);
-
+	for (int i=0; i<100; i++)
+	    lst.push_back((int)i);
+	
+	unsigned int start_time = clock();
+	for (int i = 1; i < 10001; i++)
+	{
+		int index = rand() % lst.GetSize();
+		int data = (int)rand() % 100;
+		int v = rand() % 7;
+		switch (v)
+		{
+		case 1: lst.push_back(data); cout << i << "  push_back: " << (int)data << endl; break;
+		case 2: lst.insert(data, index); cout << i << "  insert: " << (int)data << ", " << index << endl; break;
+		case 3: lst.push_front(data); cout << i << "  push_front: " << (int)data << endl; break;
+		case 4: lst.pop_back(); cout << i << "  pop_back: " << endl; break;
+		case 5: lst.removeAt(index); cout << i << "  removeAt: " << index << endl; break; 
+		case 6: lst.pop_front(); cout << i << "  pop_front: " << endl; break;
+		default:
+			break;
+		}
+	}
+	unsigned int end_time = clock();
 	for (int i = 0; i < lst.GetSize(); i++)
 	{
 		cout << lst[i] << endl;
 	}
-
-	cout << endl << "pop_back " << endl << endl;
-	lst.pop_back();
-	for (int i = 0; i < lst.GetSize(); i++)
-	{
-		cout << lst[i] << endl;
-	}
-
+	cout << "EndSize: " << lst.GetSize() << endl;
+	cout << "Time: " << (float)(end_time - start_time)/1000.0;
 	return 0;
 }
 
