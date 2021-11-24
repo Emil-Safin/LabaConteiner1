@@ -21,7 +21,7 @@ public:
 	void pop_back();
 
 private:
-	template<typename T>
+	template<typename T> // Very important line. No Delete
 	class Node
 	{
 	public:
